@@ -16,10 +16,9 @@ def _load_model_once():
         print(f"[BLIP] Загрузка модели на {_DEVICE}...")
         # Загружаем модель с логами в консоль
         model_name = open(Path(__file__).parent / "ImageModelfile", encoding='utf-8').readline().strip()
-        _PROCESSOR = BlipProcessor.from_pretrained(model_name, local_files_only=True)
+        _PROCESSOR = BlipProcessor.from_pretrained(model_name)
         _MODEL = BlipForConditionalGeneration.from_pretrained(
             model_name,
-            local_files_only=True,
         ).to(_DEVICE).eval()
         print("[BLIP] Модель загружена.")
 

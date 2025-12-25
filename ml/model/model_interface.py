@@ -11,11 +11,11 @@ def get_model_reply(robot_info) -> dict[str, list[Any] | str | int] | None | Any
     if not cfg:
         return None
 
-    batch_id = len(formater.array) + 1
-    with open(f'../transported/batch_{batch_id}.json', 'r') as f:
-        robot_info = json.load(f)
-
-    print('Batch id: ', batch_id)
+    # batch_id = len(formater.array) + 1
+    # with open(f'../transported/batch_{batch_id}.json', 'r') as f:
+    #     robot_info = json.load(f)
+    #
+    # print('Batch id: ', batch_id)
     # Агрегация данных с предыдущих запросов
     # print(robot_info)
     print('!!!!'*20)

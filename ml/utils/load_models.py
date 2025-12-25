@@ -3,16 +3,30 @@ import json
 import sys
 from huggingface_hub import snapshot_download
 
-# Пути
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CONFIG_PATH = os.path.join(BASE_DIR, "ml", "model_config.json")
-MODELS_DIR = os.path.join(BASE_DIR, "models")  # Куда качать
+# --- НАСТРОЙКА ПУТЕЙ ---
+# Получаем абсолютный путь к папке, где лежит ЭТОТ скрипт (ml/utils)
+CURRENT_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Поднимаемся на уровень выше, чтобы получить папку ml
+ML_DIR = os.path.dirname(CURRENT_SCRIPT_DIR)
+
+# Поднимаемся еще на уровень выше, чтобы получить корень проекта
+PROJECT_ROOT = os.path.dirname(ML_DIR)
+
+# Собираем итоговые пути
+# Конфиг лежит в папке ml/model_config.json
+CONFIG_PATH = os.path.join(ML_DIR, "model_config.json")
+
+# Модели сохраняем в корень проекта в папку models
+MODELS_DIR = os.path.join(PROJECT_ROOT, "models")
+
+
+# -----------------------
 
 def get_model_name_from_config():
     """Читает имя модели из json файла."""
     if not os.path.exists(CONFIG_PATH):
-        print(f"ОШИБКА: Файл конфигурации не найден: {CONFIG_PATH}")
+        print(f"ОШИБКА: Файл конфигурации не найден по пути: {CONFIG_PATH}")
         sys.exit(1)
 
     try:
@@ -24,7 +38,7 @@ def get_model_name_from_config():
                 print("ОШИБКА: В конфиге не найден ключ 'model-name'")
                 sys.exit(1)
 
-            return model_name.strip()
+            return model_name.strip()[6:]
 
     except json.JSONDecodeError:
         print("ОШИБКА: Неверный формат JSON файла")
@@ -33,24 +47,10 @@ def get_model_name_from_config():
 
 def main():
     model_name = get_model_name_from_config()
-    local_model_path = os.path.join(MODELS_DIR, model_name.replace("/", "_"))
-
-    print(f"--- Загрузчик Моделей ---")
-    print(f"Читаю конфиг: {CONFIG_PATH}")
-    print(f"Целевая модель: {model_name}")
-    print(f"Папка назначения: {local_model_path}")
-    print("-" * 30)
-
-    try:
-        snapshot_download(
-            repo_id=model_name,
-            local_dir=local_model_path,
-            local_dir_use_symlinks=False
-        )
-        print("\nУСПЕХ: Модель скачана и готова к работе.")
-    except Exception as e:
-        print(f"\nОШИБКА при скачивании: {e}")
+    os.system(f'echo loading ollama')
+    os.system('curl -fsSL https://ollama.com/install.sh | sh')
+    os.system(f'echo loading model from hf.co: {model_name}')
+    os.system(f'ollama pull hf.co/{model_name}')
 
 
-if __name__ == "__main__":
-    main()
+

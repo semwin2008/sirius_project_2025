@@ -2,6 +2,7 @@ import json
 
 from ml.utils.db_interface import create_database
 from ml.model.model_input_formater import Formater
+from ml.utils.load_models import main
 
 # инициализация конфигурации модели
 try:
@@ -17,3 +18,4 @@ except FileNotFoundError:
 # инициализация вспомогательного хранилища
 formater = Formater(3)
 
+main()

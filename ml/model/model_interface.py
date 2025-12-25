@@ -18,6 +18,7 @@ def get_model_reply(robot_info) -> dict[str, list[Any] | str | int] | None | Any
     # print('Batch id: ', batch_id)
     # Агрегация данных с предыдущих запросов
     # print(robot_info)
+
     print('!!!!'*20)
     MAX_VALUE = 95
     formater.add(robot_info)
@@ -55,7 +56,6 @@ def get_model_reply(robot_info) -> dict[str, list[Any] | str | int] | None | Any
         ("human", cfg['basic-query'])
     ])
 
-
     chain = prompt | llm
 
     start_time = time_ns()
@@ -70,3 +70,5 @@ def get_model_reply(robot_info) -> dict[str, list[Any] | str | int] | None | Any
         "joke": output_obj.content.split('</think>')[1],
     }
     return ans_dict
+
+

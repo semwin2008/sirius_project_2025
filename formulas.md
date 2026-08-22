@@ -1,7 +1,7 @@
 
 
 
-p$$
+$$
 \begin{aligned}
 &\text{cleaned\_avg\_linear\_speed} = \min\left(1, \max\left(0, \frac{\bar{v}}{\max(0.1, v_{\max})}\right)\right) \\
 &\text{speed\_variance} = \min\left(1, \max\left(0, 1 - \frac{\sigma_v}{0.8\bar{v} + 0.1}\right)\right) \\
